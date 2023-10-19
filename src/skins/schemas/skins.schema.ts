@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, ObjectId } from 'mongoose';
 
-export type SkinDocument = HydratedDocument<Skin>;
+export type SkinssDocument = HydratedDocument<Skins>;
 
 @Schema({ timestamps: true })
-export class Skin {
+export class Skins {
   @Prop()
   name: string;
 
@@ -21,4 +21,4 @@ export class Skin {
   price: number;
 }
 
-export const SkinSchema = SchemaFactory.createForClass(Skin);
+export const SkinsSchema = SchemaFactory.createForClass(Skins);
