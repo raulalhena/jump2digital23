@@ -6,9 +6,6 @@ export type SkinDocument = HydratedDocument<Skin>;
 @Schema({ timestamps: true })
 export class Skin {
   @Prop()
-  _id: ObjectId;
-
-  @Prop()
   name: string;
 
   @Prop()
