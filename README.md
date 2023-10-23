@@ -17,10 +17,10 @@ Se ha creado la entidad USER para poder contextualizar la propiedad de las SKINS
 
 ## Tecnologías usadas:
 
-- **[NestJS](https://docs.nestjs.com/first-steps)** - Necesario para su ejecución.
-- **[MongoDB](https://www.mongodb.com/try/download/community)** - Necesario para su ejecución.
-- **Mongoose** - Se instala siguiendo las instrucciones de la sección correspondiente.
-- **[Postman](https://www.postman.com/downloads/)** - Se facilitan queries en directorio: __/postman__ para el test de la API.
+- **[NestJS](https://docs.nestjs.com/first-steps)** - Framework de desarrollo de Backend. Necesario para su ejecución.
+- **[MongoDB](https://www.mongodb.com/try/download/community)** - Servidor de BBDD NoSQL. Necesario para su ejecución.
+- **Mongoose** - ORM para la conexión con la BBDD. Se instala siguiendo las instrucciones de la sección correspondiente.
+- **[Postman](https://www.postman.com/downloads/)** - App para consultas a APIs. Se facilitan queries en directorio: __/postman__ para el test de la API.
 
 ## Modelos:
 
