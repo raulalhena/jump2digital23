@@ -20,7 +20,7 @@ export class UserService {
 
   async addBoughtSkin(id: string, skinId: string) {
     try {
-      const boughSking = await this.userModel.findOneAndUpdate(
+      const userUpdated = await this.userModel.findOneAndUpdate(
         {
           _id: new mongoose.Types.ObjectId(id),
         },
@@ -33,6 +33,7 @@ export class UserService {
           new: true,
         },
       );
+      return userUpdated;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

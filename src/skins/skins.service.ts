@@ -53,8 +53,24 @@ export class SkinsService {
           'Skin is not available',
           HttpStatus.BAD_REQUEST,
         );
-      this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
-      return skin;
+      const userUpdated = await this.userService.addBoughtSkin(
+        buySkinDto.userId,
+        buySkinDto._id,
+      );
+
+      if (!userUpdated.skins.includes(skin._id)) {
+        throw new HttpException(
+          'Error while buying skin',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      } else {
+        const updatedSkin = await this.skinsModel.findOneAndUpdate(
+          { _id: skin._id },
+          { available: false },
+          { new: true },
+        );
+        return updatedSkin;
+      }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
