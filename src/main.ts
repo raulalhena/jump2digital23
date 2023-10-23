@@ -6,10 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Skinss')
-    .setDescription('Skinss API documentation')
+    .setTitle('Skins')
+    .setDescription('Skins API documentation')
     .setVersion('0.1')
-    .addTag('skinss')
+    .addTag('skins')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
