@@ -21,11 +21,6 @@ export class SkinsController {
   }
 
   @Get()
-  findAll() {
-    return this.skinsService.findAll();
-  }
-
-  @Get()
   skinsAvailable() {
     return this.skinsService.findSkinsAvailable();
   }
