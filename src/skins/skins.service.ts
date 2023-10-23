@@ -12,9 +12,9 @@ export class SkinsService {
   async create(createSkinsDto: CreateSkinsDto) {
     try {
       const newSkin = await this.skinsModel.create(createSkinsDto);
-      return 'This action adds a new skins';
+      return newSkin;
     } catch (error) {
-      throw new HttpException(message.error, HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 

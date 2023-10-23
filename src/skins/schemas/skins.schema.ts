@@ -14,7 +14,7 @@ export class Skins {
   @Prop()
   color: string;
 
-  @Prop()
+  @Prop({ default: true })
   available: boolean;
 
   @Prop()
