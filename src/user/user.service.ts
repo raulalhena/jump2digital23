@@ -47,6 +47,19 @@ export class UserService {
     }
   }
 
+  async getMySkins(id: string) {
+    try {
+      const mySkins = await this.userModel
+        .find({ _id: id })
+        .select('skins')
+        .populate({ path: 'skins', select: ['-__v'] })
+        .lean();
+      return mySkins;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }

@@ -48,7 +48,6 @@ export class SkinsService {
         _id: buySkinDto._id,
         available: true,
       });
-      console.log(skin)
       if (skin === undefined)
         throw new HttpException(
           'Skin is not available',
@@ -56,6 +55,15 @@ export class SkinsService {
         );
       this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
       return skin;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async getUserSkins(id: string) {
+    try {
+      const userSkins = await this.userService.getMySkins(id);
+      return userSkins;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

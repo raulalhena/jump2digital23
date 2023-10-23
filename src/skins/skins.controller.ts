@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SkinsService } from './skins.service';
 import { CreateSkinsDto } from './dto/create-skins.dto';
@@ -29,6 +30,11 @@ export class SkinsController {
   @Get('getskin/:id')
   findOne(@Param('id') id: string) {
     return this.skinsService.findOne(id);
+  }
+
+  @Get('myskins')
+  getMySkins(@Query('id') id: string) {
+    return this.skinsService.getUserSkins(id);
   }
 
   @Post('/buy')
