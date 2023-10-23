@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Query,
+  Put
 } from '@nestjs/common';
 import { SkinsService } from './skins.service';
 import { CreateSkinsDto } from './dto/create-skins.dto';
@@ -43,9 +43,9 @@ export class SkinsController {
     return this.skinsService.buySkin(buySkinDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSkinsDto: UpdateSkinsDto) {
-    return this.skinsService.update(+id, updateSkinsDto);
+  @Put('color')
+  changeSkinColor(@Body() updateSkinsDto: UpdateSkinsDto) {
+    return this.skinsService.changeSkinColor(updateSkinsDto);
   }
 
   @Delete('delete/:id')

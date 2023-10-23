@@ -47,11 +47,9 @@ export class SkinsService {
     try {
 
       const skin = await this.skinsModel.findOne({ _id: buySkinDto._id, available: true });
-
       if (!skin) throw new HttpException('Skin is not available', HttpStatus.BAD_REQUEST);
 
       const skins = await this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
-
       if(!this.isOwned(skins, String(skin._id))) throw new HttpException('Error while buying skin', HttpStatus.INTERNAL_SERVER_ERROR);
 
       const updatedSkin = await this.skinsModel.findOneAndUpdate(
@@ -75,8 +73,17 @@ export class SkinsService {
     }
   }
 
-  update(id: number, updateSkinsDto: UpdateSkinsDto) {
-    return `This action updates a #${id} skins`;
+  async changeSkinColor(updateSkinsDto: UpdateSkinsDto) {
+    try {
+      const [ { skins } ]  = await this.userService.getMySkins(updateSkinsDto.userId);
+      if(!this.isOwned(skins, updateSkinsDto.skinId)) throw new HttpException('Skin not owned by user', HttpStatus.BAD_REQUEST);
+
+      const updatedSkin = await this.skinsModel.findOneAndUpdate({ _id: updateSkinsDto.skinId }, { color: updateSkinsDto.color }, { new: true });
+
+      return updatedSkin;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async remove(id: string, deleteSkinDto: DeleteSkinDto) {
