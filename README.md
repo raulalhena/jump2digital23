@@ -84,7 +84,7 @@ npm install
 npm run start
 ```
 
-6. Usar postman para realizar el test de los endpoints (queries para servidor en local):
+6. Usar postman para realizar el test de los end points (queries para servidor en local usando el puerto 3000):
 
 ### **POST /skins** - Crear una skin
 
