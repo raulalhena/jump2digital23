@@ -9,8 +9,13 @@ import { Model } from 'mongoose';
 export class SkinsService {
   constructor(@InjectModel(Skins.name) private skinsModel: Model<Skins>) {}
 
-  create(createSkinsDto: CreateSkinsDto) {
-    return 'This action adds a new skins';
+  async create(createSkinsDto: CreateSkinsDto) {
+    try {
+      const newSkin = await this.skinsModel.create(createSkinsDto);
+      return 'This action adds a new skins';
+    } catch (error) {
+      throw new HttpException(message.error, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async findSkinsAvailable() {
