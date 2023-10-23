@@ -7,7 +7,6 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class SkinsService {
-
   constructor(@InjectModel(Skins.name) private skinsModel: Model<Skins>) {}
 
   create(createSkinsDto: CreateSkinsDto) {
