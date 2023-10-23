@@ -28,12 +28,13 @@ export class SkinsService {
     }
   }
 
-  findAll() {
-    return `This action returns all skins`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} skins`;
+  async findOne(id: string) {
+    try {
+      const skin = await this.skinsModel.findOne({ _id: id });
+      return skin;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   update(id: number, updateSkinsDto: UpdateSkinsDto) {

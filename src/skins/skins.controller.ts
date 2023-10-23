@@ -25,9 +25,9 @@ export class SkinsController {
     return this.skinsService.findSkinsAvailable();
   }
 
-  @Get(':id')
+  @Get('getskin/:id')
   findOne(@Param('id') id: string) {
-    return this.skinsService.findOne(+id);
+    return this.skinsService.findOne(id);
   }
 
   @Patch(':id')
