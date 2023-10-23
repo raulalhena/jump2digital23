@@ -13,7 +13,9 @@ import { CreateSkinsDto } from './dto/create-skins.dto';
 import { UpdateSkinsDto } from './dto/update-skins.dto';
 import { BuySkinDto } from './dto/buy-skin.dto';
 import { DeleteSkinDto } from './dto/delete-skin.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('skins')
 @Controller('skins')
 export class SkinsController {
   constructor(private readonly skinsService: SkinsService) {}

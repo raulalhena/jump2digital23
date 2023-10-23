@@ -21,6 +21,7 @@ Se ha creado la entidad USER para poder contextualizar la propiedad de las SKINS
 - **[MongoDB](https://www.mongodb.com/try/download/community)** - Servidor de BBDD NoSQL. Necesario para su ejecución.
 - **Mongoose** - ORM para la conexión con la BBDD. Se instala siguiendo las instrucciones de la sección correspondiente.
 - **[Postman](https://www.postman.com/downloads/)** - App para consultas a APIs. Se facilitan queries en directorio: __/postman__ para el test de la API.
+- **Swagger** - OpenAPI documentación. Se instala siguiendo las instruccione de la sección correspondiente.
 
 ## Modelos:
 
@@ -158,6 +159,14 @@ PUT se cambia el color de una skin propiedad del usuario -> http://localhost:300
 ```
 
 Se realiza un control básico de errores y de seguridad, en la propiedad de las skins por parte del usuario, en caso de que se intente modificar una skin que no es de su propiedad se devuelve mensaje de error.
+
+
+## Documentación Swagger 
+
+Se puede acceder a la documentación creada por Swagger para consultar todos los end points desde el navegador y también hacer llamadas a los mismos. En la sisguiente URL se puede consultar la documentación: [http://localhost:3000/docs](http://localhost:3000/docs)
+
+![Swagger Docs](./docs/swagger.png)
+
 
 ### Contacto
 
