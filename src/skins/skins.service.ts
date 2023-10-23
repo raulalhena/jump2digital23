@@ -44,33 +44,27 @@ export class SkinsService {
 
   async buySkin(buySkinDto: BuySkinDto) {
     try {
-      const skin = await this.skinsModel.findOne({
-        _id: buySkinDto._id,
-        available: true,
+
+      const skin = await this.skinsModel.findOne({ _id: buySkinDto._id, available: true });
+
+      if (!skin) throw new HttpException('Skin is not available', HttpStatus.BAD_REQUEST);
+
+      const skins = await this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
+
+      let isOwned = false;
+      skins.forEach((boughtSkin) => {
+        if (String(boughtSkin._id) === String(skin._id)) isOwned = true;
       });
-      if (skin === undefined)
-        throw new HttpException(
-          'Skin is not available',
-          HttpStatus.BAD_REQUEST,
-        );
-      const userUpdated = await this.userService.addBoughtSkin(
-        buySkinDto.userId,
-        buySkinDto._id,
+
+      if(!isOwned) throw new HttpException('Error while buying skin', HttpStatus.INTERNAL_SERVER_ERROR);
+
+      const updatedSkin = await this.skinsModel.findOneAndUpdate(
+        { _id: skin._id },
+        { available: false },
+        { new: true },
       );
 
-      if (!userUpdated.skins.includes(skin._id)) {
-        throw new HttpException(
-          'Error while buying skin',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      } else {
-        const updatedSkin = await this.skinsModel.findOneAndUpdate(
-          { _id: skin._id },
-          { available: false },
-          { new: true },
-        );
-        return updatedSkin;
-      }
+      return updatedSkin;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

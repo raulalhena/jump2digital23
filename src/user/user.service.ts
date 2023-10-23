@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import mongoose, { Model } from 'mongoose';
+import { Skins } from 'src/skins/schemas/skins.schema';
 
 @Injectable()
 export class UserService {
@@ -33,7 +34,8 @@ export class UserService {
           new: true,
         },
       );
-      return userUpdated;
+      
+      return userUpdated.skins;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
