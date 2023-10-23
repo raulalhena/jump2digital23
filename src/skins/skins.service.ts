@@ -89,9 +89,11 @@ export class SkinsService {
 
       const updatedSkins = await this.userService.removeBoughtSkin(deleteSkinDto.userId, skins);
 
-      if(!this.isOwned(updatedSkins, id)) throw new HttpException('Error while removing skin', HttpStatus.INTERNAL_SERVER_ERROR);
+      if(this.isNotOwned(updatedSkins, id)) throw new HttpException('Error while removing skin', HttpStatus.INTERNAL_SERVER_ERROR);
 
-      return updatedSkins;
+      const updatedSkin = await this.skinsModel.findOneAndUpdate({ _id: id }, { available: true }, { new: true });
+
+      return updatedSkin;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -101,6 +103,15 @@ export class SkinsService {
     let isOwned = false;
     skins.forEach((boughtSkin) => {
       if (String(boughtSkin._id) === skinId) isOwned = true;
+    });
+
+    return isOwned;
+  }
+
+  isNotOwned(skins: mongoose.Types.ObjectId[], skinId: string){
+    let isOwned = true;
+    skins.forEach((boughtSkin) => {
+      if (String(boughtSkin._id) === skinId) isOwned = false;
     });
 
     return isOwned;
