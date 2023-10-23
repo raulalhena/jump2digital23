@@ -10,6 +10,7 @@ import {
 import { SkinsService } from './skins.service';
 import { CreateSkinsDto } from './dto/create-skins.dto';
 import { UpdateSkinsDto } from './dto/update-skins.dto';
+import { BuySkinDto } from './dto/buy-skin.dto';
 
 @Controller('skins')
 export class SkinsController {
@@ -28,6 +29,11 @@ export class SkinsController {
   @Get('getskin/:id')
   findOne(@Param('id') id: string) {
     return this.skinsService.findOne(id);
+  }
+
+  @Post('/buy')
+  buySkin(@Body() buySkinDto: BuySkinDto) {
+    return this.skinsService.buySkin(buySkinDto);
   }
 
   @Patch(':id')

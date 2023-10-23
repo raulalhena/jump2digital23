@@ -4,10 +4,15 @@ import { UpdateSkinsDto } from './dto/update-skins.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Skins } from './schemas/skins.schema';
 import { Model } from 'mongoose';
+import { BuySkinDto } from './dto/buy-skin.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class SkinsService {
-  constructor(@InjectModel(Skins.name) private skinsModel: Model<Skins>) {}
+  constructor(
+    @InjectModel(Skins.name) private skinsModel: Model<Skins>,
+    private userService: UserService,
+  ) {}
 
   async create(createSkinsDto: CreateSkinsDto) {
     try {
@@ -30,7 +35,26 @@ export class SkinsService {
 
   async findOne(id: string) {
     try {
-      const skin = await this.skinsModel.findOne({ _id: id });
+      const skin = await this.skinsModel.findById(id);
+      return skin;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async buySkin(buySkinDto: BuySkinDto) {
+    try {
+      const skin = await this.skinsModel.findOne({
+        _id: buySkinDto._id,
+        available: true,
+      });
+      console.log(skin)
+      if (skin === undefined)
+        throw new HttpException(
+          'Skin is not available',
+          HttpStatus.BAD_REQUEST,
+        );
+      this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
       return skin;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

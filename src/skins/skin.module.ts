@@ -3,6 +3,7 @@ import { SkinsService } from './skins.service';
 import { SkinsController } from './skins.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SkinsSchema, Skins } from './schemas/skins.schema';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { SkinsSchema, Skins } from './schemas/skins.schema';
         schema: SkinsSchema,
       },
     ]),
+    UserModule,
   ],
   controllers: [SkinsController],
   providers: [SkinsService],

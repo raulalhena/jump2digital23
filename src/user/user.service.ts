@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
@@ -13,6 +13,26 @@ export class UserService {
     try {
       const newUser = await this.userModel.create(createUserDto);
       return newUser;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async addBoughtSkin(id: string, skinId: string) {
+    try {
+      const boughSking = await this.userModel.findOneAndUpdate(
+        {
+          _id: new mongoose.Types.ObjectId(id),
+        },
+        {
+          $push: {
+            skins: new mongoose.Types.ObjectId(skinId),
+          },
+        },
+        {
+          new: true,
+        },
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
