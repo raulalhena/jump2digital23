@@ -71,7 +71,16 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async removeBoughtSkin(userId: string, skins: mongoose.Types.ObjectId[]) {
+    try {
+      const updatedUser = await this.userModel.findOneAndUpdate({ _id: userId }, { skins: skins }).select('skins').populate({ path: 'skins' });
+      return updatedUser.skins;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async remove(id: string) {
+    return 'user removed';
   }
 }

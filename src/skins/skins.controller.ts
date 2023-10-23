@@ -12,6 +12,7 @@ import { SkinsService } from './skins.service';
 import { CreateSkinsDto } from './dto/create-skins.dto';
 import { UpdateSkinsDto } from './dto/update-skins.dto';
 import { BuySkinDto } from './dto/buy-skin.dto';
+import { DeleteSkinDto } from './dto/delete-skin.dto';
 
 @Controller('skins')
 export class SkinsController {
@@ -47,8 +48,8 @@ export class SkinsController {
     return this.skinsService.update(+id, updateSkinsDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.skinsService.remove(+id);
+  @Delete('delete/:id')
+  remove(@Param('id') id: string, @Body() deleteSkinDto: DeleteSkinDto) {
+    return this.skinsService.remove(id, deleteSkinDto);
   }
 }

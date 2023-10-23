@@ -3,9 +3,10 @@ import { CreateSkinsDto } from './dto/create-skins.dto';
 import { UpdateSkinsDto } from './dto/update-skins.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Skins } from './schemas/skins.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model, ObjectId } from 'mongoose';
 import { BuySkinDto } from './dto/buy-skin.dto';
 import { UserService } from 'src/user/user.service';
+import { DeleteSkinDto } from './dto/delete-skin.dto';
 
 @Injectable()
 export class SkinsService {
@@ -51,12 +52,7 @@ export class SkinsService {
 
       const skins = await this.userService.addBoughtSkin(buySkinDto.userId, buySkinDto._id);
 
-      let isOwned = false;
-      skins.forEach((boughtSkin) => {
-        if (String(boughtSkin._id) === String(skin._id)) isOwned = true;
-      });
-
-      if(!isOwned) throw new HttpException('Error while buying skin', HttpStatus.INTERNAL_SERVER_ERROR);
+      if(!this.isOwned(skins, String(skin._id))) throw new HttpException('Error while buying skin', HttpStatus.INTERNAL_SERVER_ERROR);
 
       const updatedSkin = await this.skinsModel.findOneAndUpdate(
         { _id: skin._id },
@@ -83,7 +79,30 @@ export class SkinsService {
     return `This action updates a #${id} skins`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} skins`;
+  async remove(id: string, deleteSkinDto: DeleteSkinDto) {
+    try {
+      const [ { skins } ]  = await this.userService.getMySkins(deleteSkinDto.userId);
+
+      skins.map((skin, index) => {
+        if(String(skin._id) === String(id)) skins.splice(index, 1);
+      });
+
+      const updatedSkins = await this.userService.removeBoughtSkin(deleteSkinDto.userId, skins);
+
+      if(!this.isOwned(updatedSkins, id)) throw new HttpException('Error while removing skin', HttpStatus.INTERNAL_SERVER_ERROR);
+
+      return updatedSkins;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  isOwned(skins: mongoose.Types.ObjectId[], skinId: string){
+    let isOwned = false;
+    skins.forEach((boughtSkin) => {
+      if (String(boughtSkin._id) === skinId) isOwned = true;
+    });
+
+    return isOwned;
   }
 }
