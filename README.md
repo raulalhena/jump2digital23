@@ -63,17 +63,22 @@ cd jump2dgitial23
 
 3. Crear archivo .env:
 
-```shell
+```bash
 touch .env
 ```
 
 4. Añadir variable de entorno con la URI de la BBDD al archivo (ej: servidor mongo en local):
 
-```.env
+```
 MONGODB_URI: mongodb://localhost:27017/jump2d23
 ```
 
-5. Ejecutar servidor:
+5. Instalación de dependencias:
+```bash
+npm install
+```
+
+6. Ejecutar servidor:
 
 ```bash
 npm run start
